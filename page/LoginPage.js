@@ -13,7 +13,6 @@ export default class LoginPage extends React.Component {
   navigate=(page)=>{
     //Yg manggil ke backend. 
     const {navigate} = this.props.navigation;
-    console.log(this.state);    
     navigate('Home', {
       class:this.state.class, 
       password:this.state.password

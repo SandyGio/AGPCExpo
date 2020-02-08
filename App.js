@@ -5,13 +5,13 @@ import Dashboard from './page/Dashboard';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import DrawerNavigator from './navigation/DrawerNavigator';
 
-const RootStack = createSwitchNavigator({
+const RootStack = createStackNavigator({
   LoginPage: {
     screen: LoginPage,
     navigationOptions: { header: null }
   },
   Home: {
-    screen: Dashboard,
+    screen: DrawerNavigator,
     navigationOptions: { header: null }
   }
 });
@@ -23,6 +23,6 @@ export default createAppContainer(
       DrawerNavigator: DrawerNavigator
     },
     {
-      Main: RootStack
+      Main: RootStack 
     })
 );

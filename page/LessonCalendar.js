@@ -12,7 +12,6 @@ export default class Dashboard extends React.Component {
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
         <MenuButton navigation={this.props.navigation}/>
-        <Text>{className}</Text>
       </ImageBackground>
     );
   }
