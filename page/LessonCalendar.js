@@ -1,85 +1,105 @@
 import React, { Component } from 'react';
-import { Modal, TextInput, TouchableHighlight, StyleSheet, Text, View, Image, ImageBackground, Picker, Button } from 'react-native';
+import {StyleSheet, Text, ImageBackground,Dimensions } from 'react-native';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import MenuButton from '../components/MenuButton';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      tableData: [
+        ['05 January','Combined Service'],
+        ['05 January','Combined Service'],
+        ['05 January','Combined Service'],
+        ['05 January','Combined Service']
+      ]
+    }
   }
   render() {
     const className = this.props.navigation.getParam('class');
-    console.log(className);    
     return (
-      <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
-        <MenuButton navigation={this.props.navigation}/>
-      </ImageBackground>
+      <ScrollView>
+        <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
+          <MenuButton navigation={this.props.navigation} />
+          <Text style={styles.textClass}>{className}</Text>
+          <Text style={styles.monthYear}>January 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>February 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>March 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>April 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>May 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>June 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>July 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>August 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>September 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>October 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>November 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+          <Text style={styles.monthYear}>December 2020</Text>
+          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+            <Rows data={this.state.tableData} textStyle={styles.text} />
+          </Table>
+        </ImageBackground>
+      </ScrollView>
     );
   }
 }
+const HEIGHT=Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingBottom: "5%",
   },
-  logoContainer: {
-    width: 200,
-    height: 200,
-    margin: 20,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100
-  },
-  logoImg: {
-    width: 100,
-    height: 150
-  },
-  containerModal: {
-    alignItems: 'center',
-    backgroundColor: '#fcd472',
-    color: '#0c0f6e',
-    padding: 10,
-    borderRadius: 10
-  },
-  modal: {
-    flex: 1 / 3,
-    alignItems: 'center',
-    backgroundColor: '#77d7ed',
-    paddingTop: '10%',
-    marginTop: '30%',
-    marginLeft: '10%',
-    marginRight: '10%',
-    borderRadius: 25
-  },
-  innerModal: {
-    alignItems: 'center',
-    backgroundColor: '#b9eafb',
-    padding: 15,
-    borderRadius: 25
-  },
-  text: {
-    color: '#101070',
-    marginBottom: '10%',
+  textClass: {
+    color: '#3f51b5',
+    marginBottom: '8%',
     fontSize: 20,
-    fontWeight: 'bold'
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    width: 200,
-    height: 25,
-    marginBottom: 20,
-    paddingLeft: '5%',
-    paddingRight: '5%'
-  },
-  highlight: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  button: {
+    fontWeight: 'bold',
+    marginTop: '10%',
     backgroundColor: '#fcd472',
-    padding: '10%',
-    borderRadius: 10
-  }
+    padding: '3%',
+    borderRadius: 25
+  },
+  monthYear: {
+    color: '#FFFFFF',
+    marginBottom: '5%',
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  containerTable: { backgroundColor: '#fff', width: "80%", marginBottom:"5%"},
+  text: { margin: 6 }
 });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, TextInput, TouchableHighlight, StyleSheet, Text, View, Image, ImageBackground, Picker, Button } from 'react-native';
 import MenuButton from '../components/MenuButton';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
@@ -8,12 +9,39 @@ export default class Dashboard extends React.Component {
   }
   render() {
     const className = this.props.navigation.getParam('class');
-    console.log(className);    
     return (
-      <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
-        <MenuButton navigation={this.props.navigation}/>
-        <Text>{className}</Text>
-      </ImageBackground>
+      <ScrollView>
+        <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
+          <MenuButton navigation={this.props.navigation} />
+          <Text style={styles.text}>{className}</Text>
+          <Text style={styles.year}>2020</Text>
+          <View style={styles.card}>
+            <Text style={styles.cardContentDate}>9 February</Text>
+            <Text style={styles.cardContent}>UIS4</Text>
+            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.cardContentDate}>9 February</Text>
+            <Text style={styles.cardContent}>UIS4</Text>
+            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.cardContentDate}>9 February</Text>
+            <Text style={styles.cardContent}>UIS4</Text>
+            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.cardContentDate}>9 February</Text>
+            <Text style={styles.cardContent}>UIS4</Text>
+            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={styles.cardContentDate}>9 February</Text>
+            <Text style={styles.cardContent}>UIS4</Text>
+            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
+          </View>
+        </ImageBackground>
+      </ScrollView>
     );
   }
 }
@@ -22,20 +50,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoContainer: {
-    width: 200,
-    height: 200,
-    margin: 20,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100
-  },
-  logoImg: {
-    width: 100,
-    height: 150
+    paddingBottom:"5%"
   },
   containerModal: {
     alignItems: 'center',
@@ -44,43 +59,44 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10
   },
-  modal: {
-    flex: 1 / 3,
-    alignItems: 'center',
-    backgroundColor: '#77d7ed',
-    paddingTop: '10%',
-    marginTop: '30%',
-    marginLeft: '10%',
-    marginRight: '10%',
-    borderRadius: 25
-  },
-  innerModal: {
-    alignItems: 'center',
-    backgroundColor: '#b9eafb',
-    padding: 15,
-    borderRadius: 25
-  },
   text: {
-    color: '#101070',
-    marginBottom: '10%',
+    color: '#3f51b5',
+    marginBottom: '8%',
     fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: '10%',
+    backgroundColor: '#fcd472',
+    padding: '3%',
+    borderRadius: 25
+  },
+  year: {
+    color: '#FFFFFF',
+    marginBottom: '10%',
+    fontSize: 25,
+    fontWeight: 'bold',
+  },
+  card: {
+    borderRadius: 15,
+    padding: 5,
+    backgroundColor: "#fcd472",
+    marginBottom: 5,
+    width: "90%"
+  },
+  cardContentDate: {
+    justifyContent: "center",
+    textAlign: "center",
+    fontSize: 25,
+    marginBottom: 5,
+    padding: 5,
     fontWeight: 'bold'
   },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    width: 200,
-    height: 25,
-    marginBottom: 20,
-    paddingLeft: '5%',
-    paddingRight: '5%'
-  },
-  highlight: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  button: {
-    backgroundColor: '#fcd472',
-    padding: '10%',
-    borderRadius: 10
+  cardContent: {
+    justifyContent: "center",
+    textAlign: "center",
+    fontSize: 25,
+    marginBottom: 5,
+    padding: 5,
+    fontWeight: 'bold',
+    color:"#3f51b5"
   }
 });

@@ -7,8 +7,7 @@ export default class Dashboard extends React.Component {
     super(props);
   }
   render() {
-    const className = this.props.navigation.getParam('class');
-    console.log(className);    
+    const className = this.props.navigation.getParam('class');  
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
         <MenuButton navigation={this.props.navigation}/>
