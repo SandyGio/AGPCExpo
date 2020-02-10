@@ -1,16 +1,45 @@
 import React, { Component } from 'react';
-import { Modal, TextInput, TouchableHighlight, StyleSheet, Text, View, Image, ImageBackground, Picker, Button } from 'react-native';
+import { StyleSheet, ImageBackground, Dimensions, Text, CheckBox, View } from 'react-native';
+import { WebView } from 'react-native-webview';
 import MenuButton from '../components/MenuButton';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      worship: true
+    }
+    this.checkBoxTest = () => {
+      console.log("clicked");
+
+      this.setState({
+        worship: !this.state.worship
+      })
+    }
   }
   render() {
     const className = this.props.navigation.getParam('class');
+    const htmlStyleFix = `<style type="text/css">iframe{max-width: 100%;}</style>`;
+    const htmlStr = `${htmlStyleFix}<p><iframe width="1165" height="655" src="https://www.youtube.com/embed/sJUCMmYsN1A?feature=oembed" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>`;
+
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
-        <MenuButton navigation={this.props.navigation}/>
+        <MenuButton navigation={this.props.navigation} />
+        <Text style={styles.text}>{className}</Text>
+        <View style={{ flexDirection: 'row', backgroundColor:"#FFFFFF" }}>
+          <CheckBox text="AGKids Worship" value={this.state.worship} onChange={() => this.checkBoxTest()} />
+        </View>
+
+        <WebView
+          source={{ html: htmlStr }} // use the custom html string you created above
+          bounces={false}         // IOS Only
+          dataDetectorTypes='link'
+          scalesPageToFit={true}
+          scrollEnabled={false}
+          automaticallyAdjustContentInsets={false}
+          mediaPlaybackRequiresUserAction={true}
+          style={{ width: Dimensions.get('window').width - 40 }}
+        />
       </ImageBackground>
     );
   }
@@ -20,65 +49,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoContainer: {
-    width: 200,
-    height: 200,
-    margin: 20,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100
-  },
-  logoImg: {
-    width: 100,
-    height: 150
-  },
-  containerModal: {
-    alignItems: 'center',
-    backgroundColor: '#fcd472',
-    color: '#0c0f6e',
-    padding: 10,
-    borderRadius: 10
-  },
-  modal: {
-    flex: 1 / 3,
-    alignItems: 'center',
-    backgroundColor: '#77d7ed',
-    paddingTop: '10%',
-    marginTop: '30%',
-    marginLeft: '10%',
-    marginRight: '10%',
-    borderRadius: 25
-  },
-  innerModal: {
-    alignItems: 'center',
-    backgroundColor: '#b9eafb',
-    padding: 15,
-    borderRadius: 25
+    paddingBottom: "5%",
   },
   text: {
-    color: '#101070',
-    marginBottom: '10%',
+    color: '#3f51b5',
+    marginBottom: '5%',
     fontSize: 20,
-    fontWeight: 'bold'
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    width: 200,
-    height: 25,
-    marginBottom: 20,
-    paddingLeft: '5%',
-    paddingRight: '5%'
-  },
-  highlight: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  button: {
+    fontWeight: 'bold',
+    marginTop: '10%',
     backgroundColor: '#fcd472',
-    padding: '10%',
-    borderRadius: 10
+    padding: '3%',
+    borderRadius: 25
+  },
+  pdf: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   }
 });
