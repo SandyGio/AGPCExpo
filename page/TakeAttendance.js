@@ -12,34 +12,33 @@ export default class Dashboard extends React.Component {
       students: [
         {
           id: 1,
-          name: "chilly",
+          name: "Chilly",
           pic: ""
         },
         {
           id: 2,
-          name: "sandy",
+          name: "Sandy",
           pic: ""
         },
       ],
       active: []
     }
-    this.takeAttend = (student_id) => {
-      console.log(student_id);
 
+    this.takeAttend = (student_id) => {
       var x = student_id;
       var arr = this.state.active;
       var statusArray = arr.indexOf(student_id);
-      console.log(statusArray);
 
       if (statusArray < 0) {
+        //If there's no student id in the array of active
         arr.push(x);
       }
       else {
+        //if there's student id in the array of active so inactive the student id in array
         arr.splice(statusArray, 1);
       }
 
-      console.log(arr, "After Push");
-
+      //Set state for rerendering content
       this.setState({
         active: arr
       });
@@ -49,18 +48,25 @@ export default class Dashboard extends React.Component {
       var renderValue = [];
       this.state.students.map((value, key) => {
         var obj;
+        var textStyle;
         if (this.state.active.indexOf(key) > -1) {
+          //Check if there's student id in the array, so the border color and the font color will change
           obj = Object.assign({}, styles.fotoContainer, styles.fotoContainerActive);
+          textStyle = Object.assign({}, styles.studentText, styles.studentTextActive);
         }
         else {
+          //If there's no student id in the array the style will use standard no active
           obj = styles.fotoContainer
+          textStyle = styles.studentText
         }
+
+        //Push content per student
         renderValue.push(<TouchableHighlight onPress={() => console.log(this.takeAttend(key))}>
           <View style={styles.studentContainer}>
             <View style={obj}>
               <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
             </View>
-            <Text style={styles.studentText}>{value["name"]}</Text>
+            <Text style={textStyle}>{value["name"]}</Text>
           </View>
         </TouchableHighlight>)
       });
@@ -128,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   fotoContainerActive: {
-    backgroundColor: 'green',
+    backgroundColor: '#228b22',
   },
   text: {
     color: '#3f51b5',
@@ -160,4 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: "center",
   },
+  studentTextActive:{
+    color:"#228b22"
+  }
 });

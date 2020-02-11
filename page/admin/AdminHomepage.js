@@ -6,6 +6,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      class:this.props.class,
+      isAdmin:true, 
+    }
   }
   render() {
     const className = this.props.navigation.getParam('class');
@@ -18,6 +22,10 @@ export default class Dashboard extends React.Component {
             <Picker.Item label="AGKidsWorship" value="AGKidsWorship" />
             <Picker.Item label="PG1" value="PG1" />
           </Picker>
+
+          <TouchableHighlight onPress={() => console.log(this.state.active)}>
+            <Text style={styles.text}>Go To Class</Text>
+          </TouchableHighlight>
         </View>
 
       </ImageBackground>

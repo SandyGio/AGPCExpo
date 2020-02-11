@@ -7,11 +7,38 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attendDate: "2016-05-15",
+      students: [
+        {
+          id: 1,
+          name: "Chilly",
+          pic: ""
+        },
+        {
+          id: 2,
+          name: "Sandy",
+          pic: ""
+        },
+      ],
+    }
+    this.renderStudent = () => {
+      var renderValue = [];
+      this.state.students.map((value, key) => {
+        //Push content per student
+        renderValue.push(<TouchableHighlight onPress={() => console.log(key)}>
+          <View style={styles.studentContainer}>
+            <View style={styles.fotoContainer}>
+              <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
+            </View>
+            <Text style={styles.studentText}>{value["name"]}</Text>
+          </View>
+        </TouchableHighlight>)
+      });
+      return renderValue;
     }
   }
   render() {
     const className = this.props.navigation.getParam('class');
+    var studenticker = this.renderStudent();
 
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
@@ -21,32 +48,7 @@ export default class Dashboard extends React.Component {
         <View>
           <View style={styles.row}>
 
-            <TouchableHighlight testID="1" onPress={() => console.log(this._student1)}>
-              <View ref={component => this._student1 = component} style={styles.studentContainer}>
-                <View style={styles.fotoContainer}>
-                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
-                </View>
-                <Text style={styles.studentText}>Nama Siswa</Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => console.log("clicked")}>
-              <View style={styles.studentContainer}>
-                <View style={styles.fotoContainer}>
-                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
-                </View>
-                <Text style={styles.studentText}>Nama Siswa</Text>
-              </View>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => console.log("clicked")}>
-              <View style={styles.studentContainer}>
-                <View style={styles.fotoContainer}>
-                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
-                </View>
-                <Text style={styles.studentText}>Nama Siswa</Text>
-              </View>
-            </TouchableHighlight>
+          {studenticker}
 
           </View>
         </View>
