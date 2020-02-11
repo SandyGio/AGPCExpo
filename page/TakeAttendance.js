@@ -1,17 +1,78 @@
 import React, { Component } from 'react';
-import { Modal, TextInput, TouchableHighlight, StyleSheet, Text, View, Image, ImageBackground, Picker, Button } from 'react-native';
+import { StyleSheet, ImageBackground, Dimensions, Text, View, Image, TouchableHighlight } from 'react-native';
 import MenuButton from '../components/MenuButton';
+import DatePicker from 'react-native-datepicker';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      attendDate: "2016-05-15",
+    }
   }
   render() {
     const className = this.props.navigation.getParam('class');
-    console.log(className);    
+
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
-        <MenuButton navigation={this.props.navigation}/>
+        <MenuButton navigation={this.props.navigation} />
+        <Text style={styles.text}>{className}</Text>
+
+        <DatePicker
+          style={{ width: 200, backgroundColor: "#FFFFFF", marginBottom: 50 }}
+          date={this.state.attendDate}
+          mode="date"
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: 'absolute',
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+          }}
+          onDateChange={(date) => { this.setState({ attendDate: date }) }}
+        />
+
+        <View>
+          <View style={styles.row}>
+
+            <TouchableHighlight testID="1" onPress={() => console.log(this._student1)}>
+              <View ref={component => this._student1 = component} style={styles.studentContainer}>
+                <View style={styles.fotoContainer}>
+                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
+                </View>
+                <Text style={styles.studentText}>Nama Siswa</Text>
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => console.log("clicked")}>
+              <View style={styles.studentContainer}>
+                <View style={styles.fotoContainer}>
+                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
+                </View>
+                <Text style={styles.studentText}>Nama Siswa</Text>
+              </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight onPress={() => console.log("clicked")}>
+              <View style={styles.studentContainer}>
+                <View style={styles.fotoContainer}>
+                  <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
+                </View>
+                <Text style={styles.studentText}>Nama Siswa</Text>
+              </View>
+            </TouchableHighlight>
+
+          </View>
+        </View>
       </ImageBackground>
     );
   }
@@ -21,65 +82,45 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingBottom: "5%",
   },
-  logoContainer: {
-    width: 200,
-    height: 200,
-    margin: 20,
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100
-  },
-  logoImg: {
+  fotoContainer: {
     width: 100,
-    height: 150
-  },
-  containerModal: {
+    height: 100,
+    backgroundColor: '#ff8c00',
     alignItems: 'center',
-    backgroundColor: '#fcd472',
-    color: '#0c0f6e',
-    padding: 10,
-    borderRadius: 10
-  },
-  modal: {
-    flex: 1 / 3,
-    alignItems: 'center',
-    backgroundColor: '#77d7ed',
-    paddingTop: '10%',
-    marginTop: '30%',
-    marginLeft: '10%',
-    marginRight: '10%',
-    borderRadius: 25
-  },
-  innerModal: {
-    alignItems: 'center',
-    backgroundColor: '#b9eafb',
-    padding: 15,
-    borderRadius: 25
+    justifyContent: 'center',
+    borderRadius: 100,
+    marginBottom: 10
   },
   text: {
-    color: '#101070',
-    marginBottom: '10%',
+    color: '#3f51b5',
+    marginBottom: '5%',
     fontSize: 20,
-    fontWeight: 'bold'
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    width: 200,
-    height: 25,
-    marginBottom: 20,
-    paddingLeft: '5%',
-    paddingRight: '5%'
-  },
-  highlight: {
-    alignItems: 'center',
-    width: '30%',
-  },
-  button: {
+    fontWeight: 'bold',
+    marginTop: '10%',
     backgroundColor: '#fcd472',
-    padding: '10%',
-    borderRadius: 10
-  }
+    padding: '3%',
+    borderRadius: 25
+  },
+  logoImg: {
+    width: 85,
+    height: 85, 
+    borderRadius:100
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: 'center',
+  },
+  studentContainer: {
+    marginLeft: 10,
+    marginRight: 10
+  },
+  studentText: {
+    color: '#000000',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: "center",
+  },
 });
