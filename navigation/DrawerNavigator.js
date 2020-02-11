@@ -15,8 +15,6 @@ import VenueAllocation from '../page/VenueAllocation';
 
 const WIDTH = Dimensions.get('window').width;
 
-console.log("width from menu", WIDTH);
-
 const DrawerConfig = {
     drawerWidth: WIDTH * 10,
 }

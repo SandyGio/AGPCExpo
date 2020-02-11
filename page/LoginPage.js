@@ -12,19 +12,27 @@ export default class LoginPage extends React.Component {
   }
   navigate=(page)=>{
     //Yg manggil ke backend. 
+    console.log(page);
+    
     const {navigate} = this.props.navigation;
-    navigate('Home', {
-      class:this.state.class, 
-      password:this.state.password
-    });
-    this.toggleModal(false)
+    if(page=='Admin'){
+      navigate('AdminHome', {
+        class:this.state.class, 
+        password:this.state.password
+      });
+      this.toggleModal(false)
+    }
+    else{
+      navigate('Home', {
+        class:this.state.class, 
+        password:this.state.password
+      });
+      this.toggleModal(false)
+    }
+    
   }
   toggleModal(visible) {
     this.setState({ modalVisible: visible});
-  }
-  validationLogin = () => {
-    console.log(this.state);
-    // this.props.navigation('Dashboard');
   }
   render() {
     return (
@@ -36,6 +44,7 @@ export default class LoginPage extends React.Component {
           <Picker selectedValue={this.state.class} style={{ height: 50, width: 170 }} onValueChange={(itemValue, itemIndex) => this.setState({ class: itemValue })}>
             <Picker.Item label="AGKidsWorship" value="AGKidsWorship" />
             <Picker.Item label="PG1" value="PG1" />
+            <Picker.Item label="Admin" value="Admin" />
           </Picker>
         </View>
 
@@ -50,7 +59,7 @@ export default class LoginPage extends React.Component {
                 <TextInput secureTextEntry={true} style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
 
                 <View style={{ flexDirection: 'row' }}>
-                  <TouchableHighlight style={styles.highlight} onPress={() => this.navigate('Dashboard')}>
+                  <TouchableHighlight style={styles.highlight} onPress={() => this.navigate(this.state.class)}>
                     <Text style={styles.button}>Login</Text>
                   </TouchableHighlight>
                   <TouchableHighlight style={styles.highlight} onPress={() => {
