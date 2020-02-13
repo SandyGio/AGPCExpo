@@ -13,10 +13,6 @@ const RootStack = createStackNavigator({
   Home: {
     screen: DrawerNavigator,
     navigationOptions: { headerShown: false }
-  },
-  AdminHome: {
-    screen: AdminDrawerNavigator,
-    navigationOptions: { headerShown: false }
   }
 });
 
@@ -24,8 +20,7 @@ export default createAppContainer(
   createSwitchNavigator(
     {
       RootStack: RootStack,
-      DrawerNavigator: DrawerNavigator,
-      AdminDrawerNavigator: AdminDrawerNavigator
+      DrawerNavigator: DrawerNavigator
     },
     {
       Main: RootStack

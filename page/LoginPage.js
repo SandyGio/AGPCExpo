@@ -10,29 +10,20 @@ export default class LoginPage extends React.Component {
       password: ''
     };
   }
-  navigate=(page)=>{
+  navigate = (page) => {
     //Yg manggil ke backend. 
-    console.log(page);
-    
-    const {navigate} = this.props.navigation;
-    if(page=='Admin'){
-      navigate('AdminHome', {
-        class:this.state.class, 
-        password:this.state.password
-      });
-      this.toggleModal(false)
-    }
-    else{
-      navigate('Home', {
-        class:this.state.class, 
-        password:this.state.password
-      });
-      this.toggleModal(false)
-    }
-    
+
+    const { navigate } = this.props.navigation;
+
+    navigate('Home', {
+      class: this.state.class,
+      password: this.state.password
+    });
+    this.toggleModal(false)
+
   }
   toggleModal(visible) {
-    this.setState({ modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
   render() {
     return (
@@ -44,7 +35,6 @@ export default class LoginPage extends React.Component {
           <Picker selectedValue={this.state.class} style={{ height: 50, width: 170 }} onValueChange={(itemValue, itemIndex) => this.setState({ class: itemValue })}>
             <Picker.Item label="AGKidsWorship" value="AGKidsWorship" />
             <Picker.Item label="PG1" value="PG1" />
-            <Picker.Item label="Admin" value="Admin" />
           </Picker>
         </View>
 
