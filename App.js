@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import LoginPage from './page/LoginPage';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import DrawerNavigator from './navigation/DrawerNavigator';
-import AdminDrawerNavigator from './navigation/AdminDrawerNavigator';
 
 const RootStack = createStackNavigator({
   LoginPage: {

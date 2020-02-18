@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, ImageBackground,Dimensions } from 'react-native';
+import { StyleSheet, Text, ImageBackground, Dimensions, View } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import MenuButton from '../components/MenuButton';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -8,13 +8,50 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      months : ['January','February','March','April','May','June','July','August','September','October','November','December'],
       tableData: [
-        ['05 January','Combined Service'],
-        ['05 January','Combined Service'],
-        ['05 January','Combined Service'],
-        ['05 January','Combined Service']
-      ]
+        ['05 January', 'Combined Service'],
+        ['05 January', 'Combined Service'],
+        ['05 January', 'Combined Service'],
+        ['05 January', 'Combined Service']
+      ],
+      events: []
     }
+
+    this.getEventAll = async () => {
+      var eventData = [];
+      try {
+        let response = await fetch(
+          'http://agpc.tansah.com:7454/application/DB/getEvent/' + this.props.navigation.state.key + '/' + this.props.navigation.getParam('classId'),
+        );
+        let responseJson = await response.json();
+        responseJson.content.map((value, key) => {
+          for (var i = 0; i < value.length; i++) {
+            var timeEvent = new Date(value[i].startTime).getDate() + " " + this.state.months[new Date(value[i].startTime).getMonth()];
+
+            if (typeof eventData[key] == 'undefined') {
+              eventData[key] = [];
+            }
+
+            eventData[key].push([timeEvent, value[i].Name]);
+          }
+        })
+
+        eventData['year']=new Date(responseJson.content[0][0].startTime).getFullYear(); 
+        return eventData;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+  componentDidMount() {
+    const getEvents = this.getEventAll();
+    var that = this;
+    getEvents.then(function (value) {
+      var tmpState = { ...that.state };
+      tmpState.events = value;
+      that.setState(tmpState)
+    })
   }
   render() {
     const className = this.props.navigation.getParam('class');
@@ -23,60 +60,22 @@ export default class Dashboard extends React.Component {
         <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
           <MenuButton navigation={this.props.navigation} />
           <Text style={styles.textClass}>{className}</Text>
-          <Text style={styles.monthYear}>January 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>February 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>March 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>April 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>May 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>June 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>July 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>August 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>September 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>October 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>November 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
-          <Text style={styles.monthYear}>December 2020</Text>
-          <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
-            <Rows data={this.state.tableData} textStyle={styles.text} />
-          </Table>
+          {
+            this.state.events.map((value, key) => {
+              if(key!='year'){
+              return (<View style={{width:"100%", alignItems:'center'}}><Text style={styles.monthYear}>{this.state.months[key]} {this.state.events['year']}</Text>
+                <Table borderStyle={{ borderWidth: 2, borderColor: '#c8e1ff' }} style={styles.containerTable}>
+                  <Rows data={this.state.events[key]} textStyle={styles.text} />
+                </Table></View>)
+              }
+            })
+          }
         </ImageBackground>
       </ScrollView>
     );
   }
 }
-const HEIGHT=Dimensions.get('window').height;
+const HEIGHT = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -100,6 +99,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
   },
-  containerTable: { backgroundColor: '#fff', width: "80%", marginBottom:"5%"},
+  containerTable: { backgroundColor: '#fff', width: "80%", marginBottom: "5%" },
   text: { margin: 6 }
 });

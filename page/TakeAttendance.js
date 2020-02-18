@@ -24,6 +24,19 @@ export default class Dashboard extends React.Component {
       active: []
     }
 
+    this.getStudentData=async ()=>{
+      try {
+        let response = await fetch(
+          'http://agpc.tansah.com:7454/application/DB/Attendance/getStudentList/' + this.props.navigation.getParam('classId'),
+        );
+        let responseJson = await response.json();
+        console.log(responseJson);
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     this.takeAttend = (student_id) => {
       var x = student_id;
       var arr = this.state.active;
@@ -76,6 +89,7 @@ export default class Dashboard extends React.Component {
   render() {
     const className = this.props.navigation.getParam('class');
     var studenticker = this.renderStudent();
+    var getStudentData=this.getStudentData();
 
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>

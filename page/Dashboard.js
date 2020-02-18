@@ -6,8 +6,42 @@ import { ScrollView } from 'react-native-gesture-handler';
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state={
+      events:[]
+    }
+    this.getEvent=async ()=>{
+      var renderEvents=[];
+      try {
+        let response = await fetch(
+          'http://agpc.tansah.com:7454/application/DB/getEvent/'+this.props.navigation.state.key+'/'+this.props.navigation.getParam('classId'),
+        );
+        let responseJson = await response.json();
+        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        responseJson.content.map((event)=>{
+          var nameSplit=event.Name.split("-");
+          var date=new Date(event.startTime);
+          var thisMonth=months[date.getMonth()];
+          var dateEvent=date.getDate()+" "+thisMonth
+          renderEvents.push(<View style={styles.card}><Text style={styles.cardContentDate}>{dateEvent}</Text><Text style={styles.cardContent}>{nameSplit[0]}</Text><Text style={styles.cardContent}>{nameSplit[1]}</Text></View>)       
+        })
+        
+        return renderEvents;     
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
-  render() {
+  componentDidMount(){
+
+    const getEvents=this.getEvent();
+    var that = this;
+    getEvents.then(function (value) {
+      var tmpState = { ...that.state };
+      tmpState.events = value;
+      that.setState(tmpState)
+    })
+  }
+  render() {    
     const className = this.props.navigation.getParam('class');
     return (
       <ScrollView>
@@ -15,31 +49,7 @@ export default class Dashboard extends React.Component {
           <MenuButton navigation={this.props.navigation} />
           <Text style={styles.text}>{className}</Text>
           <Text style={styles.year}>2020</Text>
-          <View style={styles.card}>
-            <Text style={styles.cardContentDate}>9 February</Text>
-            <Text style={styles.cardContent}>UIS4</Text>
-            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardContentDate}>9 February</Text>
-            <Text style={styles.cardContent}>UIS4</Text>
-            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardContentDate}>9 February</Text>
-            <Text style={styles.cardContent}>UIS4</Text>
-            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardContentDate}>9 February</Text>
-            <Text style={styles.cardContent}>UIS4</Text>
-            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
-          </View>
-          <View style={styles.card}>
-            <Text style={styles.cardContentDate}>9 February</Text>
-            <Text style={styles.cardContent}>UIS4</Text>
-            <Text style={styles.cardContent}>Noah and the Ark (Genesis 6-9)</Text>
-          </View>
+          {this.state.events}
         </ImageBackground>
       </ScrollView>
     );
