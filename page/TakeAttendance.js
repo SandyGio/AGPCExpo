@@ -3,12 +3,13 @@ import { StyleSheet, ImageBackground, Dimensions, Text, View, Image, TouchableHi
 import MenuButton from '../components/MenuButton';
 import DatePicker from 'react-native-datepicker';
 import { ScrollView } from 'react-native-gesture-handler';
+import moment from 'moment';
 
 export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      attendDate: "2016-05-15",
+      attendDate: moment(Date.now()).format('YYYY-MM-DD'),
       students: [],
       active: []
     }
@@ -16,10 +17,10 @@ export default class Dashboard extends React.Component {
     this.getStudentData = async () => {
       try {
         let response = await fetch(
-          'http://agpc.tansah.com:7454/application/DB/Attendance/getStudentList/' + this.props.navigation.getParam('classId'),
+          'http://agpc.tansah.com:7454/application/DB/Attendance/getStudentList/' + this.props.navigation.getParam('classId') + '/' + this.state.attendDate,
         );
         let responseJson = await response.json();
-        return responseJson.content;
+        return responseJson;
 
       } catch (error) {
         console.error(error);
@@ -27,12 +28,10 @@ export default class Dashboard extends React.Component {
     }
 
     this.takeAttend = (student_id) => {
-      console.log(student_id);
-      
+
       var x = student_id;
       var arr = this.state.active;
-      console.log(arr);
-      
+
       var statusArray = arr.indexOf(student_id);
 
       if (statusArray < 0) {
@@ -54,22 +53,18 @@ export default class Dashboard extends React.Component {
       var renderValue = [];
       var finalRender = [];
       var ct = 0;
-      console.log(this.state);
-      
+
       this.state.students.map((value, key) => {
         var obj;
         var textStyle;
-        
+
         if (this.state.active.indexOf(value["id"]) > -1) {
           //Check if there's student id in the array, so the border color and the font color will change
-          console.log("masuk sini");
-          
-          obj=styles.fotoContainerActive;
-          console.log(obj, styles.fotoContainer, styles.fotoContainerActive);
-          
-          textStyle=styles.studentTextActive;
-          console.log(textStyle);
-          
+
+          obj = styles.fotoContainerActive;
+
+          textStyle = styles.studentTextActive;
+
         }
         else {
           //If there's no student id in the array the style will use standard no active
@@ -82,7 +77,7 @@ export default class Dashboard extends React.Component {
           renderValue.push(<TouchableHighlight onPress={() => this.takeAttend(value["id"])}>
             <View style={styles.studentContainer}>
               <View style={obj}>
-                <Image source={value["Avatar"]} style={styles.logoImg}></Image>
+                <Image source={{ uri: value["Avatar"] }} style={styles.logoImg}></Image>
               </View>
               <Text style={textStyle}>{value["Name"] + " " + value["Surname"]}</Text>
             </View>
@@ -96,7 +91,7 @@ export default class Dashboard extends React.Component {
           renderValue.push(<TouchableHighlight onPress={() => this.takeAttend(value["id"])}>
             <View style={styles.studentContainer}>
               <View style={obj}>
-                <Image source={value["Avatar"]} style={styles.logoImg}></Image>
+                <Image source={{ uri: value["Avatar"] }} style={styles.logoImg}></Image>
               </View>
               <Text style={textStyle}>{value["Name"] + " " + value["Surname"]}</Text>
             </View>
@@ -104,16 +99,16 @@ export default class Dashboard extends React.Component {
         }
       });
 
-      if(renderValue.length>0){
+      if (renderValue.length > 0) {
         finalRender.push(<View style={styles.row}>{renderValue}</View>);
       }
 
       return finalRender;
     }
 
-    this.submitAttendance=async ()=>{
+    this.submitAttendance = async () => {
       try {
-        var that=this;
+        var that = this;
         let response = await fetch(
           'http://agpc.tansah.com:7454/application/DB/submitAttendance', {
           method: 'POST',
@@ -123,11 +118,14 @@ export default class Dashboard extends React.Component {
           },
           body: JSON.stringify({
             active: that.state.active,
-            attendDate: that.state.attendDate
+            attendDate: that.state.attendDate,
+            classId: this.props.navigation.getParam('classId')
           })
         })
-        let responseJson= await response.json();
-        console.log(responseJson);
+        let responseJson = await response.json();
+        if (responseJson.status) {
+          alert("Attendance has been submitted.")
+        }
       } catch (error) {
         console.error(error);
       }
@@ -136,10 +134,11 @@ export default class Dashboard extends React.Component {
   componentDidMount() {
     const studentData = this.getStudentData();
     var that = this;
-    console.log(this.state);
     studentData.then(function (value) {
+
       var tmpState = { ...that.state };
-      tmpState.students = value;
+      tmpState.students = value.content;
+      tmpState.active = value.active;
       that.setState(tmpState)
     })
   }
@@ -172,7 +171,18 @@ export default class Dashboard extends React.Component {
                 marginLeft: 36
               }
             }}
-            onDateChange={(date) => { this.setState({ attendDate: date }) }}
+            onDateChange={(date) => {
+              this.setState({ attendDate: date });
+              const studentData = this.getStudentData();
+              var that = this;
+              studentData.then(function (value) {
+                var tmpState = { ...that.state };
+                tmpState.students = value.content;
+                tmpState.active = value.active;
+                that.setState(tmpState)
+              })
+              this.renderStudent()
+            }}
           />
 
           <View>
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: 'center',
-    marginBottom:20
+    marginBottom: 20
   },
   studentContainer: {
     marginLeft: 10,
@@ -243,14 +253,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: "center",
-    maxWidth:100
+    maxWidth: 100
   },
   studentTextActive: {
     color: '#000000',
     fontSize: 15,
     fontWeight: 'bold',
     textAlign: "center",
-    maxWidth:100,
+    maxWidth: 100,
     color: "#228b22"
   }
 });

@@ -11,7 +11,7 @@ export default class Dashboard extends React.Component {
     super(props);
     this.state = {
       worship: true,
-      startDate: "2016-05-15",
+      startDate: "2016-04-15",
       endDate: "2016-06-15"
     }
     this.checkBoxTest = () => {
@@ -19,9 +19,22 @@ export default class Dashboard extends React.Component {
         worship: !this.state.worship
       })
     }
+    this.callPDF=async ()=>{
+      try {
+        let response = await fetch(
+          'http://agpc.tansah.com:7454/application/DB/Attendance/getPdfReports/' + this.props.navigation.getParam('classId') + '/' + this.state.worship + '/' + this.state.startDate + '/' + this.state.endDate,
+        );
+        let responseJson = await response.json();
+        console.log(responseJson);
+
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }
   render() {
     const className = this.props.navigation.getParam('class');
+    const pdfCall = this.callPDF();
     const htmlStyleFix = `<style type="text/css">iframe{max-width: 100%;}</style>`;
     const htmlStr = `${htmlStyleFix}<p><iframe width="1165" height="655" src="https://www.youtube.com/embed/sJUCMmYsN1A?feature=oembed" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>`;
 

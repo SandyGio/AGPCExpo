@@ -18,16 +18,8 @@ export default class Dashboard extends React.Component {
         <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
           <MenuButton navigation={this.props.navigation} />
           <Text style={styles.text}>{className}</Text>
-
-          <WebView
-            source={{ html: htmlStr }} // use the custom html string you created above
-            bounces={false}         // IOS Only
-            dataDetectorTypes='link'
-            scalesPageToFit={true}
-            scrollEnabled={false}
-            automaticallyAdjustContentInsets={false}
-            mediaPlaybackRequiresUserAction={true}
-            style={{ width: Dimensions.get('window').width - 40, height: Dimensions.get('window').height - 40 }}
+          <Image
+            style={styles.stretch}
           />
         </ImageBackground>
       </ScrollView>
