@@ -48,8 +48,6 @@ export default class LoginPage extends React.Component {
           })
         })
         let responseJson= await response.json();
-        console.log(responseJson);
-        
         if(responseJson.loginStatus=="ok"){
           this.navigate("Dashboard");
         }
@@ -88,52 +86,22 @@ export default class LoginPage extends React.Component {
     })
   }
   render() {
+    const studentId = this.props.navigation.getParam('studentId');
     return (
       <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image source={require('../assets/Picture1.jpg')} style={styles.logoImg}></Image>
-        </View>
-        <View style={{ backgroundColor: '#FFFFFF', borderRadius: 15, margin: 20 }}>
-          <Picker selectedValue={this.state.pickerValue} style={{ height: 50, width: 170 }} onValueChange={(itemValue, itemIndex) => {
-            var tmpState = { ...this.state }
-            var classnameId = itemValue.split("-")
-            tmpState.pickerValue = itemValue
-            tmpState.class = classnameId[0]
-            tmpState.classId = classnameId[1]
-            this.setState(tmpState)
-          }}>
-            {this.state.listClasses}
-          </Picker>
-        </View>
+        <Text>{studentId}</Text>
+        <TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
 
-        <View style={styles.containerModal}>
-          <Modal animationType={"slide"} transparent={true}
-            visible={this.state.modalVisible}
-            onRequestClose={() => { console.log("Modal has been closed.") }}>
+        <Text>Birthday</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Address</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Father</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Mobile</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Email</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Mother</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Mobile</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
+        <Text>Email</Text><TextInput style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
 
-            <View style={styles.modal}>
-              <View style={styles.innerModal}>
-                <Text style={styles.text}>Password</Text>
-                <TextInput secureTextEntry={true} style={styles.textInput} onChangeText={(value) => this.setState({ password: value })} />
-
-                <View style={{ flexDirection: 'row' }}>
-                  <TouchableHighlight style={styles.highlight} onPress={() => this.validateLogin()}>
-                    <Text style={styles.button}>Login</Text>
-                  </TouchableHighlight>
-                  <TouchableHighlight style={styles.highlight} onPress={() => {
-                    this.toggleModal(!this.state.modalVisible)
-                  }}>
-                    <Text style={styles.button}>Cancel</Text>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
-
-          <TouchableHighlight onPress={() => { this.toggleModal(true) }}>
-            <Text>Login</Text>
-          </TouchableHighlight>
-        </View>
       </ImageBackground>
     );
   }

@@ -29,24 +29,13 @@ export default class Dashboard extends React.Component {
 
     this.takeAttend = (student_id) => {
 
-      var x = student_id;
-      var arr = this.state.active;
+      console.log(student_id);
+      const { navigate } = this.props.navigation;
 
-      var statusArray = arr.indexOf(student_id);
-
-      if (statusArray < 0) {
-        //If there's no student id in the array of active
-        arr.push(x);
-      }
-      else {
-        //if there's student id in the array of active so inactive the student id in array
-        arr.splice(statusArray, 1);
-      }
-
-      //Set state for rerendering content
-      this.setState({
-        active: arr
+      navigate('EditPage', {
+        studentId: student_id
       });
+
     }
 
     this.renderStudent = () => {
@@ -55,8 +44,8 @@ export default class Dashboard extends React.Component {
       var ct = 0;
 
       this.state.students.map((value, key) => {
-        var obj=styles.fotoContainer;
-        var textStyle=styles.studentText;
+        var obj = styles.fotoContainer;
+        var textStyle = styles.studentText;
 
         if (ct < 3) {
           //Push content per student
@@ -218,7 +207,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: 'center',
-    marginBottom:20
+    marginBottom: 20
   },
   studentContainer: {
     marginLeft: 10,
