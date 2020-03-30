@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, ImageBackground, Dimensions, Text, View } from 'react-native';
+import { StyleSheet, ImageBackground, Dimensions, Text, Image, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import MenuButton from '../components/MenuButton';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,18 +11,16 @@ export default class Dashboard extends React.Component {
   render() {
     const className = this.props.navigation.getParam('class');
     const htmlStyleFix = `<style type="text/css">iframe{max-width: 100%;}</style>`;
-    const htmlStr = `${htmlStyleFix}<p><iframe width="1165" height="655" src="https://www.youtube.com/embed/sJUCMmYsN1A?feature=oembed" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>`;
+    const htmlStr = `https://dl.dropboxusercontent.com/s/xo8nixn75gj2mes/Class%20Layout-input.jpg`;
 
     return (
-      <ScrollView>
         <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
           <MenuButton navigation={this.props.navigation} />
           <Text style={styles.text}>{className}</Text>
           <Image
-            style={styles.stretch}
+            source={{uri:htmlStr}}
           />
         </ImageBackground>
-      </ScrollView>
     );
   }
 }
@@ -32,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingBottom: "5%",
+    minHeight:'100%'
   },
   text: {
     color: '#3f51b5',

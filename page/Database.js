@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, ImageBackground, Dimensions, Text, View, Image, TouchableHighlight } from 'react-native';
 import MenuButton from '../components/MenuButton';
-import DatePicker from 'react-native-datepicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import moment from 'moment';
 
@@ -32,7 +31,7 @@ export default class Dashboard extends React.Component {
       console.log(student_id);
       const { navigate } = this.props.navigation;
 
-      navigate('EditPage', {
+      navigate('PreviewPage', {
         studentId: student_id
       });
 
@@ -126,39 +125,6 @@ export default class Dashboard extends React.Component {
         <ImageBackground source={require('../assets/bg2.jpg')} style={styles.container}>
           <MenuButton navigation={this.props.navigation} />
           <Text style={styles.text}>{className}</Text>
-
-          <DatePicker
-            style={{ width: 200, backgroundColor: "#FFFFFF", marginBottom: 50 }}
-            date={this.state.attendDate}
-            mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
-            onDateChange={(date) => {
-              this.setState({ attendDate: date });
-              const studentData = this.getStudentData();
-              var that = this;
-              studentData.then(function (value) {
-                var tmpState = { ...that.state };
-                tmpState.students = value.content;
-                tmpState.active = value.active;
-                that.setState(tmpState)
-              })
-              this.renderStudent()
-            }}
-          />
 
           <View>
             {studenticker}
